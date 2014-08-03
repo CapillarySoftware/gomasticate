@@ -5,7 +5,7 @@ install:
 - wget http://download.nanomsg.org/nanomsg-0.4-beta.tar.gz
 - tar -xzvf nanomsg-0.4-beta.tar.gz
 - cd nanomsg-0.4-beta
-- ./configure && make && make install
+- ./configure --prefix=/usr && make && make install
 - go get github.com/tools/godep
 - go get code.google.com/p/go.tools/cmd/cover
 - go get github.com/onsi/ginkgo/ginkgo
