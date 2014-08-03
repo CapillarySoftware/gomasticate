@@ -1,0 +1,11 @@
+{
+	"ImportPath": "github.com/CapillarySoftware/gomasticate",
+	"GoVersion": "go1.3",
+	"Deps": [
+		{
+			"ImportPath": "github.com/cihub/seelog",
+			"Comment": "go1.1-24-g83d0dca",
+			"Rev": "83d0dcad636b63c066856045962befa246e00c79"
+		}
+	]
+}
