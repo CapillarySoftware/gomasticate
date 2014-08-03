@@ -1,5 +1,5 @@
-<seelog type="adaptive" mininterval="100000000" maxinterval="1000000000" critmsgcount="5">
-    <outputs formatid="all">
+<seelog type="asynctimer" asyncinterval="1000000">
+   <outputs formatid="all">
            <filter levels="info" formatid="fmtinfo" >
               <console/>
               <rollingfile type="size" filename="gomasticate.log" maxsize="20000000" maxrolls="5" />
