@@ -2,7 +2,7 @@ gomasticate
 =========
 [![Build Status](https://travis-ci.org/CapillarySoftware/gomasticate.svg?branch=master)](https://travis-ci.org/CapillarySoftware/gomasticate)
 
-Masticate...
+Masticate... because it feels right.
 
 <h3>install</h3>
 <pre>
