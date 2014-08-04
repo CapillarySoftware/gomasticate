@@ -6,6 +6,14 @@
 			"ImportPath": "github.com/cihub/seelog",
 			"Comment": "go1.1-24-g83d0dca",
 			"Rev": "83d0dcad636b63c066856045962befa246e00c79"
+		},
+		{
+			"ImportPath": "github.com/op/go-nanomsg",
+			"Rev": "56d628e7c641959b9dc713a83e21dc178aee25bd"
+		},
+		{
+			"ImportPath": "gopkg.in/yaml.v1",
+			"Rev": "1b9791953ba4027efaeb728c7355e542a203be5e"
 		}
 	]
 }
