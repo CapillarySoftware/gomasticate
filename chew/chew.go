@@ -5,7 +5,7 @@ import (
 	nano "github.com/op/go-nanomsg"
 )
 
-func Chew(count int, finished chan int) {
+func Chew() {
 	var (
 		msg []byte
 		err error
@@ -21,22 +21,14 @@ func Chew(count int, finished chan int) {
 		log.Error(err)
 	}
 	log.Info("Connected and ready to receive data")
-	tot := 0
 
 	for {
 		msg, err = socket.Recv(0) //blocking
 		if nil != err {
 			log.Error(err)
-		} else {
-			// log.Trace(msg)
-			if nil != msg {
-				tot++
-			}
 		}
-		if tot >= count {
-			break
+		if nil != msg {
 		}
 	}
-	finished <- tot
 
 }

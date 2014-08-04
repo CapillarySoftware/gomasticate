@@ -5,6 +5,7 @@ import (
 	nano "github.com/op/go-nanomsg"
 )
 
+//Simple pusher for testing
 func Pusher(count int, finished chan int) {
 	socket, err := nano.NewPushSocket()
 	if nil != err {
