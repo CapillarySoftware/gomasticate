@@ -3,6 +3,7 @@ package start
 //Start manages the main run loop of the application
 import (
 	// "flag"
+	"github.com/CapillarySoftware/gomasticate/chew"
 	log "github.com/cihub/seelog"
 	"os"
 	"os/signal"
@@ -34,6 +35,8 @@ func Death(c <-chan os.Signal, death chan int) {
 //Run the app.
 func Run() {
 	log.Info("Starting gomasticate")
+	finished := make(chan int, 10)
+	go chew.Chew(1000, finished)
 	// flag.Parse()
 	c := make(chan os.Signal, 1)
 	s := make(chan int, 1)
