@@ -11,8 +11,14 @@ import (
 var _ = Describe("Conf", func() {
 	It("Fail to read conf that doesn't exist", func() {
 		conf, err := GetConf("test.yaml_not_exist")
-		Expect(err).ShouldNot(BeNil())
+		Expect(err).ShouldNot(Equal(BeNil()))
 		Expect(conf).Should(BeNil())
+	})
+
+	It("Fail read invalid file", func() {
+		_, err := GetConf("conf.go")
+		Expect(err).ShouldNot(Equal(BeNil()))
+
 	})
 
 	Describe("Read file and parse out objects by expected type", func() {
