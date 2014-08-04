@@ -1,0 +1,7 @@
+chew:
+ port: 2025
+ host: localhost
+
+es:
+ port: 9054
+ host: localhost

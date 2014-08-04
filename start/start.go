@@ -2,12 +2,11 @@ package start
 
 //Start manages the main run loop of the application
 import (
-	// "flag"
+	"github.com/CapillarySoftware/gomasticate/chew"
 	log "github.com/cihub/seelog"
+	// yaml "gopkg.in/yaml.v1"
 	"os"
 	"os/signal"
-	// "strconv"
-	// "strings"
 )
 
 //Manage death of application by signal
@@ -34,7 +33,13 @@ func Death(c <-chan os.Signal, death chan int) {
 //Run the app.
 func Run() {
 	log.Info("Starting gomasticate")
-	// flag.Parse()
+	conf, err := GetConf("conf.yaml")
+	if nil != err {
+		log.Error(err)
+		return
+	}
+	log.Info(conf)
+	go chew.Chew()
 	c := make(chan os.Signal, 1)
 	s := make(chan int, 1)
 	signal.Notify(c)
