@@ -1,6 +1,6 @@
 gomasticate
 =========
-[![Build Status](https://travis-ci.org/CapillarySoftware/gomasticate.svg?branch=master)](https://travis-ci.org/CapillarySoftware/gomasticate)
+[![Build Status](https://magnum.travis-ci.com/CapillarySoftware/gomasticate.svg?token=48o3zC2UVnhZLFcYLG2C&branch=master)](https://magnum.travis-ci.com/CapillarySoftware/gomasticate)
 
 Masticate... because it feels right.
 
