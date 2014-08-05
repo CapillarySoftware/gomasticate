@@ -1,11 +1,13 @@
 package chew
 
 import (
+	"github.com/CapillarySoftware/goforward/messaging"
 	log "github.com/cihub/seelog"
 	nano "github.com/op/go-nanomsg"
 )
 
-func Chew() {
+//Injest data from queue and ship the data off to be swallowed
+func Chew(swallowChan chan *messaging.Food) {
 	var (
 		msg []byte
 		err error
@@ -20,6 +22,7 @@ func Chew() {
 	if nil != err {
 		log.Error(err)
 	}
+
 	log.Info("Connected and ready to receive data")
 
 	for {
@@ -28,6 +31,12 @@ func Chew() {
 			log.Error(err)
 		}
 		if nil != msg {
+			food := new(messaging.Food)
+			food.Unmarshal(msg)
+			swallowChan <- food
+
+		} else {
+			log.Warn("Null mesage...?")
 		}
 	}
 

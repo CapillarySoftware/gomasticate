@@ -2,7 +2,9 @@ package start
 
 //Start manages the main run loop of the application
 import (
+	"github.com/CapillarySoftware/goforward/messaging"
 	"github.com/CapillarySoftware/gomasticate/chew"
+	"github.com/CapillarySoftware/gomasticate/swallow"
 	log "github.com/cihub/seelog"
 	// yaml "gopkg.in/yaml.v1"
 	"os"
@@ -39,7 +41,9 @@ func Run() {
 		return
 	}
 	log.Info(conf)
-	go chew.Chew()
+	swallowChan := make(chan *messaging.Food, 1000)
+	go chew.Chew(swallowChan)
+	go swallow.Swallow(swallowChan)
 	c := make(chan os.Signal, 1)
 	s := make(chan int, 1)
 	signal.Notify(c)

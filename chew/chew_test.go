@@ -54,7 +54,7 @@ func Pull(count int, finished chan int) {
 		log.Error(err)
 	}
 	defer socket.Close()
-	_, err = socket.Bind("tcp://*:2025")
+	_, err = socket.Bind("tls://*:2025")
 	if nil != err {
 		log.Error(err)
 	}
