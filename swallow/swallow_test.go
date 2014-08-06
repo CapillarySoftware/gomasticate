@@ -7,6 +7,7 @@ import (
 	log "github.com/cihub/seelog"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
+	"sync"
 	"time"
 )
 
@@ -57,14 +58,21 @@ var _ = Describe("Swallow", func() {
 			close(swallowChan)
 			count := 0
 			for {
+				db.Lock()
 				if db.Index != "" {
+
 					log.Info(db.Index)
+					db.Unlock()
 					break
 				}
+				db.Unlock()
 				time.Sleep(100 * time.Nanosecond)
 				count++
 			}
+
+			db.Lock()
 			Expect(db.Index).Should(Equal(food.String()))
+			db.Unlock()
 
 			// swallow.Swallow()
 		})
@@ -73,10 +81,13 @@ var _ = Describe("Swallow", func() {
 })
 
 type DB struct {
+	sync.Mutex
 	Index string
 }
 
 func (this *DB) IndexDocument(doc Document) (err error) {
+	this.Lock()
 	this.Index = doc.String()
+	this.Unlock()
 	return
 }
