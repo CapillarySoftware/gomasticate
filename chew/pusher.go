@@ -12,7 +12,7 @@ func Pusher(count int, finished chan int) {
 		log.Error(err)
 	}
 	defer socket.Close()
-	_, err = socket.Connect("tls://localhost:2025")
+	_, err = socket.Connect("tcp://localhost:2025")
 	if nil != err {
 		log.Error(err)
 		return

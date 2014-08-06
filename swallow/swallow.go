@@ -2,10 +2,13 @@ package swallow
 
 import (
 	"github.com/CapillarySoftware/goforward/messaging"
+	. "github.com/CapillarySoftware/gomasticate/stomach"
+
 	log "github.com/cihub/seelog"
 )
 
-func Swallow(swallowChan <-chan *messaging.Food) {
+//Swallow data and insert it into the db
+func Swallow(swallowChan <-chan *messaging.Food, stomach Stomach) {
 	log.Info("Ready to swallow!")
 	for food := range swallowChan {
 		fType := food.GetType()
@@ -13,21 +16,27 @@ func Swallow(swallowChan <-chan *messaging.Food) {
 		case messaging.RFC3164:
 			{
 				log.Trace("RFC3164 : ", food)
+				err := stomach.IndexDocument(food)
+				if nil != err {
+					log.Error(err)
+				}
 			}
 
 		case messaging.RFC5424:
 			{
-				log.Trace("RFC5424 :", food)
+				// log.Trace("RFC5424 :", food)
+				stomach.IndexDocument(food)
 			}
 
 		case messaging.JSON:
 			{
-				log.Trace("JSON :", food)
+				// log.Trace("JSON :", food)
+				stomach.IndexDocument(food)
 			}
 
 		default:
 			{
-				log.Error("Invalid message : ", food)
+				// log.Error("Invalid message : ", food)
 			}
 		}
 	}
