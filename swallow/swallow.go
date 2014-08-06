@@ -16,7 +16,7 @@ func Swallow(swallowChan <-chan *messaging.Food, stomach Stomach) {
 		case messaging.RFC3164:
 			{
 				log.Trace("RFC3164 : ", food)
-				err := stomach.IndexDocument(food)
+				err := stomach.IndexDocument(food.GetIndex(), food.GetIndexType(), food.GetId(), food.Rfc3164[0])
 				if nil != err {
 					log.Error(err)
 				}
@@ -24,14 +24,14 @@ func Swallow(swallowChan <-chan *messaging.Food, stomach Stomach) {
 
 		case messaging.RFC5424:
 			{
-				// log.Trace("RFC5424 :", food)
-				stomach.IndexDocument(food)
+				log.Trace("RFC5424 :", food)
+				// stomach.IndexDocument(food)
 			}
 
 		case messaging.JSON:
 			{
-				// log.Trace("JSON :", food)
-				stomach.IndexDocument(food)
+				log.Trace("JSON :", food)
+				// stomach.IndexDocument(food)
 			}
 
 		default:

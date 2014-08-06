@@ -16,8 +16,8 @@ func (this *Elasticsearch) Connect(url string) (err error) {
 	return
 }
 
-func (this *Elasticsearch) IndexDocument(doc Document) (err error) {
-	_, err = this.c.Index(doc.GetIndex(), doc.GetIndexType(), doc.GetId(), nil, doc)
+func (this *Elasticsearch) IndexDocument(index string, indexType string, id string, doc Document) (err error) {
+	_, err = this.c.Index(index, indexType, id, nil, doc)
 	this.c.Flush()
 	return
 }
