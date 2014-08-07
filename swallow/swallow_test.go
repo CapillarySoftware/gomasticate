@@ -59,7 +59,7 @@ var _ = Describe("Swallow", func() {
 			count := 0
 			for {
 				db.Lock()
-				if db.Index != "" {
+				if db.Doc != "" {
 
 					log.Info(db.Index)
 					db.Unlock()
@@ -71,7 +71,7 @@ var _ = Describe("Swallow", func() {
 			}
 
 			db.Lock()
-			Expect(db.Index).Should(Equal(food.String()))
+			Expect(db.Doc).Should(Equal(food.Rfc3164[0].String()))
 			db.Unlock()
 
 			// swallow.Swallow()
@@ -82,12 +82,18 @@ var _ = Describe("Swallow", func() {
 
 type DB struct {
 	sync.Mutex
-	Index string
+	Doc       string
+	Index     string
+	IndexType string
+	Id        string
 }
 
-func (this *DB) IndexDocument(doc Document) (err error) {
+func (this *DB) IndexDocument(index string, indexType string, id string, doc Document) (err error) {
 	this.Lock()
-	this.Index = doc.String()
+	this.Index = index
+	this.IndexType = indexType
+	this.Id = id
+	this.Doc = doc.String()
 	this.Unlock()
 	return
 }
