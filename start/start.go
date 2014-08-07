@@ -2,10 +2,10 @@ package start
 
 //Start manages the main run loop of the application
 import (
-	"github.com/CapillarySoftware/goforward/messaging"
-	"github.com/CapillarySoftware/gomasticate/chew"
+	// "github.com/CapillarySoftware/goforward/messaging"
+	// "github.com/CapillarySoftware/gomasticate/chew"
 	_es "github.com/CapillarySoftware/gomasticate/elasticsearch"
-	"github.com/CapillarySoftware/gomasticate/swallow"
+	// "github.com/CapillarySoftware/gomasticate/swallow"
 	log "github.com/cihub/seelog"
 	"os"
 	"os/signal"
@@ -35,7 +35,8 @@ func Death(c <-chan os.Signal, death chan int) {
 //Run the app.
 func Run() {
 	log.Info("Starting gomasticate")
-	conf, err := GetConf("conf.yaml")
+	conf := new(Conf)
+	err := conf.InitConf("conf.yaml")
 	if nil != err {
 		log.Error(err)
 		return
@@ -43,9 +44,9 @@ func Run() {
 	log.Info(conf)
 	es := new(_es.Elasticsearch)
 	es.Connect("localhost")
-	swallowChan := make(chan *messaging.Food, 1000)
-	go chew.Chew(swallowChan)
-	go swallow.Swallow(swallowChan, es)
+	// chewChan := make(chan *messaging.Food, 1000)
+	// go chew.Chew(swallowChan)
+	// go swallow.Swallow(swallowChan, es)
 	c := make(chan os.Signal, 1)
 	s := make(chan int, 1)
 	signal.Notify(c)
