@@ -16,3 +16,10 @@ go get github.com/op/go-nanomsg
 go get github.com/CapillarySoftware/gomasticate
 </code>
 </pre>
+
+<h3>Install statically linked version</h3>
+<pre>
+<code>
+go install --ldflags '-extldflags "-static"'  github.com/CapillarySoftware/gomasticate
+</code>
+</pre>
