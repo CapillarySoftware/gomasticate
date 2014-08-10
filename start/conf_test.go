@@ -32,7 +32,7 @@ var _ = Describe("Conf", func() {
 		It("Read All values out of test yaml", func() {
 			esHost := conf.EsHost()
 			Expect(esHost).Should(Equal("localhost"))
-			mouthPort := conf.MouthPort()
+			mouthPort := conf.LipsPort()
 			Expect(mouthPort).Should(Equal(2025))
 		})
 

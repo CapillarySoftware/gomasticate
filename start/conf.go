@@ -7,9 +7,9 @@ import (
 )
 
 type Conf struct {
-	c     map[interface{}]interface{}
-	mouth map[interface{}]interface{}
-	es    map[interface{}]interface{}
+	c    map[interface{}]interface{}
+	lips map[interface{}]interface{}
+	es   map[interface{}]interface{}
 }
 
 //initialize our config file
@@ -25,7 +25,7 @@ func (this *Conf) InitConf(path string) (err error) {
 		log.Error(err)
 		return
 	}
-	this.mouth = this.c["mouth"].(map[interface{}]interface{})
+	this.lips = this.c["lips"].(map[interface{}]interface{})
 	this.es = this.c["es"].(map[interface{}]interface{})
 	return
 }
@@ -37,7 +37,7 @@ func (this *Conf) EsHost() (host string) {
 }
 
 // Port used to feed the mouth
-func (this *Conf) MouthPort() (port int) {
-	port = this.mouth["port"].(int)
+func (this *Conf) LipsPort() (port int) {
+	port = this.lips["port"].(int)
 	return
 }
