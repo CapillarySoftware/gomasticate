@@ -5,10 +5,11 @@ import (
 	. "github.com/CapillarySoftware/gomasticate/stomach"
 
 	log "github.com/cihub/seelog"
+	"sync"
 )
 
 //Swallow data and insert it into the db
-func Swallow(swallowChan <-chan *messaging.Food, stomach Stomach) {
+func Swallow(swallowChan <-chan *messaging.Food, stomach Stomach, wg *sync.WaitGroup) {
 	log.Info("Ready to swallow!")
 	for food := range swallowChan {
 		fType := food.GetType()
@@ -40,4 +41,8 @@ func Swallow(swallowChan <-chan *messaging.Food, stomach Stomach) {
 			}
 		}
 	}
+	log.Info("Done Swallowing")
+	log.Flush()
+	wg.Done()
+
 }
