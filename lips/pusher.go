@@ -1,4 +1,4 @@
-package chew
+package lips
 
 import (
 	log "github.com/cihub/seelog"
