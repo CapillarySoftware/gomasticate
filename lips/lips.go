@@ -24,7 +24,7 @@ func OpenWide(chewChan chan *messaging.Food, done chan interface{}, wg *sync.Wai
 		log.Error(err)
 	}
 	defer socket.Close()
-	socket.SetRecvTimeout(500 * time.Millisecond)
+	socket.SetRecvTimeout(1000 * time.Millisecond)
 	_, err = socket.Bind("tcp://*:2025")
 	if nil != err {
 		log.Error(err)
@@ -43,8 +43,8 @@ main:
 			{
 				msg, err = socket.Recv(0)
 				if nil != err {
-					log.Debug(err)
-					log.Debug("No messages to process")
+					// log.Debug(err)
+					// log.Debug("No messages to process")
 				}
 				if nil != msg {
 					food := new(messaging.Food)
