@@ -51,9 +51,14 @@ func Run() {
 	swallowChan := make(chan *messaging.Food, 1000)
 	done := make(chan interface{})
 
-	wg.Add(3)
+	wg.Add(8)
 	go lips.OpenWide(chewChan, done, &wg)
 	go chew.Chew(chewChan, swallowChan, &wg)
+	go swallow.Swallow(swallowChan, es, &wg)
+	go swallow.Swallow(swallowChan, es, &wg)
+	go swallow.Swallow(swallowChan, es, &wg)
+	go swallow.Swallow(swallowChan, es, &wg)
+	go swallow.Swallow(swallowChan, es, &wg)
 	go swallow.Swallow(swallowChan, es, &wg)
 
 	//handle signals

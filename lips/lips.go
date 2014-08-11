@@ -7,6 +7,7 @@ import (
 	log "github.com/cihub/seelog"
 	nano "github.com/op/go-nanomsg"
 	"sync"
+	"time"
 )
 
 //Injest data from queue and ship the data off to be swallowed
@@ -15,6 +16,7 @@ func OpenWide(chewChan chan *messaging.Food, done chan interface{}, wg *sync.Wai
 		msg []byte
 		err error
 	)
+
 	defer close(chewChan)
 	socket, err := nano.NewPullSocket()
 
@@ -22,6 +24,7 @@ func OpenWide(chewChan chan *messaging.Food, done chan interface{}, wg *sync.Wai
 		log.Error(err)
 	}
 	defer socket.Close()
+	socket.SetRecvTimeout(500 * time.Millisecond)
 	_, err = socket.Bind("tcp://*:2025")
 	if nil != err {
 		log.Error(err)
@@ -39,10 +42,9 @@ main:
 		default:
 			{
 				msg, err = socket.Recv(0)
-
 				if nil != err {
-					log.Error(err)
-					break main
+					log.Debug(err)
+					log.Debug("No messages to process")
 				}
 				if nil != msg {
 					food := new(messaging.Food)
@@ -53,8 +55,6 @@ main:
 					}
 					chewChan <- food
 
-				} else {
-					log.Warn("Null mesage...? Possible shutdown.")
 				}
 			}
 		}

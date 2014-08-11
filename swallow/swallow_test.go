@@ -24,9 +24,9 @@ var _ = Describe("Swallow", func() {
 			severity    int32
 			food        *messaging.Food
 			swallowChan chan *messaging.Food
+			wg          sync.WaitGroup
 		)
 		BeforeEach(func() {
-
 			timestamp = int64(time.Now().Unix())
 			hostname = "hostname"
 			tag = "tag"
@@ -53,9 +53,11 @@ var _ = Describe("Swallow", func() {
 		It("Test RFC3164", func() {
 			// log.Info(food)
 			db := new(DB)
-			go Swallow(swallowChan, db)
+			wg.Add(1)
+			go Swallow(swallowChan, db, &wg)
 			swallowChan <- food
 			close(swallowChan)
+			wg.Wait()
 			count := 0
 			for {
 				db.Lock()

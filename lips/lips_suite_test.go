@@ -7,7 +7,7 @@ import (
 	"testing"
 )
 
-func TestMouth(t *testing.T) {
+func TestLips(t *testing.T) {
 	RegisterFailHandler(Fail)
-	RunSpecs(t, "Mouth Suite")
+	RunSpecs(t, "Lips Suite")
 }
