@@ -1,7 +1,5 @@
-chew:
+lips:
  port: 2025
+es:
  host: localhost
 
-es:
- port: 9054
- host: localhost

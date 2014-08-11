@@ -1,7 +1,7 @@
-package chew_test
+package lips_test
 
 import (
-	"github.com/CapillarySoftware/gomasticate/chew"
+	"github.com/CapillarySoftware/gomasticate/lips"
 	log "github.com/cihub/seelog"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -23,7 +23,7 @@ var _ = Describe("Push and Pull", func() {
 				go Pull(count*pushers, finished)
 				for i := 0; i < pushers; i++ {
 					log.Info("Starting pusher")
-					go chew.Pusher(count, finished)
+					go lips.Pusher(count, finished)
 				}
 				log.Info("Waiting for messages")
 				for i := 0; i < pushers+1; i++ {
