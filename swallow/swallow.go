@@ -3,7 +3,7 @@ package swallow
 import (
 	"github.com/CapillarySoftware/goforward/messaging"
 	. "github.com/CapillarySoftware/gomasticate/stomach"
-
+	rep "github.com/CapillarySoftware/goreport"
 	log "github.com/cihub/seelog"
 	"sync"
 )
@@ -11,6 +11,7 @@ import (
 //Swallow data and insert it into the db
 func Swallow(swallowChan <-chan *messaging.Food, stomach Stomach, wg *sync.WaitGroup) {
 	log.Info("Ready to swallow!")
+	r := rep.NewReporter()
 	for food := range swallowChan {
 		fType := food.GetType()
 		switch fType {
@@ -20,6 +21,9 @@ func Swallow(swallowChan <-chan *messaging.Food, stomach Stomach, wg *sync.WaitG
 				err := stomach.IndexDocument(food.GetIndex(), food.GetIndexType(), food.GetId(), food.Rfc3164[0])
 				if nil != err {
 					log.Error(err)
+					r.AddStatWIndex("Swallow", 1, "fail")
+				} else {
+					r.AddStatWIndex("Swallow", 1, "good")
 				}
 			}
 

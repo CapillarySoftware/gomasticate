@@ -7,6 +7,7 @@ import (
 	_es "github.com/CapillarySoftware/gomasticate/elasticsearch"
 	"github.com/CapillarySoftware/gomasticate/lips"
 	"github.com/CapillarySoftware/gomasticate/swallow"
+
 	log "github.com/cihub/seelog"
 	"os"
 	"os/signal"
@@ -35,11 +36,11 @@ func Death(c <-chan os.Signal, death chan int) {
 }
 
 //Run the app.
-func Run() {
+func Run() (err error) {
 	var wg sync.WaitGroup
 	log.Info("Starting gomasticate")
 	conf := new(Conf)
-	err := conf.InitConf("conf.yaml")
+	err = conf.InitConf("conf.yaml")
 	if nil != err {
 		log.Error(err)
 		return
@@ -49,6 +50,7 @@ func Run() {
 	es.Connect("localhost")
 	chewChan := make(chan *messaging.Food, 1000)
 	swallowChan := make(chan *messaging.Food, 2000)
+
 	done := make(chan interface{})
 
 	wg.Add(12)
@@ -76,4 +78,5 @@ func Run() {
 	log.Info("Waiting for goroutines to finish...")
 	wg.Wait()
 	log.Info("Exiting")
+	return
 }
