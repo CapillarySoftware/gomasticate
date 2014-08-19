@@ -4,6 +4,7 @@ package lips
 
 import (
 	"github.com/CapillarySoftware/goforward/messaging"
+	rep "github.com/CapillarySoftware/goreport"
 	log "github.com/cihub/seelog"
 	nano "github.com/op/go-nanomsg"
 	"sync"
@@ -19,6 +20,7 @@ func OpenWide(chewChan chan *messaging.Food, done chan interface{}, wg *sync.Wai
 
 	defer close(chewChan)
 	socket, err := nano.NewPullSocket()
+	r := rep.NewReporter()
 
 	if nil != err {
 		log.Error(err)
@@ -43,8 +45,7 @@ main:
 			{
 				msg, err = socket.Recv(0)
 				if nil != err {
-					// log.Debug(err)
-					// log.Debug("No messages to process")
+					//we hit timeout
 				}
 				if nil != msg {
 					food := new(messaging.Food)
@@ -53,6 +54,7 @@ main:
 						log.Error("Invalid message: ", err)
 						continue
 					}
+					r.AddStat("lips_count", 1)
 					chewChan <- food
 
 				}
