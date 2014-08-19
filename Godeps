@@ -11,6 +11,14 @@
 			"Rev": "403ba5f5b33184d8b306db1dd5d7aaf9ce950d06"
 		},
 		{
+			"ImportPath": "github.com/CapillarySoftware/goreport",
+			"Rev": "20cf9f1c81cef2b1009794cf85f81bab2f875788"
+		},
+		{
+			"ImportPath": "github.com/CapillarySoftware/gostat/protoStat",
+			"Rev": "cd6a00de8618c1dcef6e35cebc41305fd7840a1d"
+		},
+		{
 			"ImportPath": "github.com/araddon/gou",
 			"Rev": "5270e27dc51dad48e1a1d1f5a7806e2fa8d2eb88"
 		},
