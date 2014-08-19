@@ -45,6 +45,7 @@ main:
 			{
 				msg, err = socket.Recv(0)
 				if nil != err {
+					r.AddStatWIndex("lips", 1, "timeout")
 					//we hit timeout
 				}
 				if nil != msg {
@@ -52,9 +53,10 @@ main:
 					err = food.Unmarshal(msg)
 					if nil != err {
 						log.Error("Invalid message: ", err)
+						r.AddStatWIndex("lips", 1, "bad")
 						continue
 					}
-					r.AddStat("lips_count", 1)
+					r.AddStatWIndex("lips", 1, "good")
 					chewChan <- food
 
 				}

@@ -16,7 +16,7 @@ func Chew(chewChan <-chan *messaging.Food, swallowChan chan *messaging.Food, wg 
 	for msg := range chewChan {
 		if nil != msg {
 			//parsing work here probably change what our message type looks like when swallowed
-			r.AddStat("chewed_count", 1)
+			r.AddStatWIndex("chew", 1, "good")
 			swallowChan <- msg
 		}
 	}
