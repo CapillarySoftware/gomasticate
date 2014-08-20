@@ -20,12 +20,16 @@ func OpenWide(chewChan chan *messaging.Food, done chan interface{}, wg *sync.Wai
 
 	defer close(chewChan)
 	socket, err := nano.NewPullSocket()
-	r := rep.NewReporter()
-
 	if nil != err {
 		log.Error(err)
 	}
 	defer socket.Close()
+	r := rep.NewReporter()
+	//repeat stats with 0 if nothing is reported
+	r.AddRepeatedStatWIndex("lips", "timeout")
+	r.AddRepeatedStatWIndex("lips", "good")
+	r.AddRepeatedStatWIndex("lips", "bad")
+
 	socket.SetRecvTimeout(1000 * time.Millisecond)
 	_, err = socket.Bind("tcp://*:2025")
 	if nil != err {

@@ -13,6 +13,7 @@ func Chew(chewChan <-chan *messaging.Food, swallowChan chan *messaging.Food, wg 
 	log.Info("Let the chewing begin!")
 	defer close(swallowChan)
 	r := rep.NewReporter()
+	r.AddRepeatedStatWIndex("chew", "good")
 	for msg := range chewChan {
 		if nil != msg {
 			//parsing work here probably change what our message type looks like when swallowed
