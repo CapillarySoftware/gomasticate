@@ -12,6 +12,13 @@ import (
 func Swallow(swallowChan <-chan *messaging.Food, stomach Stomach, wg *sync.WaitGroup) {
 	log.Info("Ready to swallow!")
 	r := rep.NewReporter()
+	r.AddRepeatedStatWIndex("swallow", "RFC3164Bad")
+	r.AddRepeatedStatWIndex("swallow", "RFC3164Good")
+	r.AddRepeatedStatWIndex("swallow", "RFC5424Bad")
+	r.AddRepeatedStatWIndex("swallow", "RFC5424Good")
+	r.AddRepeatedStatWIndex("swallow", "JSONBad")
+	r.AddRepeatedStatWIndex("swallow", "JSONGood")
+
 	for food := range swallowChan {
 		fType := food.GetType()
 		switch fType {
@@ -21,9 +28,9 @@ func Swallow(swallowChan <-chan *messaging.Food, stomach Stomach, wg *sync.WaitG
 				err := stomach.IndexDocument(food.GetIndex(), food.GetIndexType(), food.GetId(), food.Rfc3164[0])
 				if nil != err {
 					log.Error(err)
-					r.AddStatWIndex("Swallow", 1, "fail")
+					r.AddStatWIndex("Swallow", 1, "RFC3164Bad")
 				} else {
-					r.AddStatWIndex("Swallow", 1, "good")
+					r.AddStatWIndex("Swallow", 1, "RFC3164Good")
 				}
 			}
 
