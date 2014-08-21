@@ -19,7 +19,7 @@ func (this *Elasticsearch) Connect(url string) (err error) {
 }
 
 //Index documents into elasticsearch
-func (this *Elasticsearch) IndexDocument(index string, indexType string, id string, doc Document) (err error) {
-	_, err = this.c.Index(index, indexType, id, nil, doc)
+func (this *Elasticsearch) IndexDocument(index string, indexType string, doc Document) (err error) {
+	_, err = this.c.Index(index, indexType, doc.GetId(), nil, doc)
 	return
 }
