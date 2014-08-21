@@ -24,7 +24,7 @@ func Chew(chewChan <-chan *messaging.Food, swallowChan chan *messaging.Food, wg 
 			fmtDate := date.Format("2006-01-02")
 			indexType := "all"
 			customerId := "id" //should exist eventually
-			index := "documents-" + fmtDate + "-" + customerId
+			index := "documents-" + customerId + "-" + fmtDate
 			msg.Index = &index
 			msg.IndexType = &indexType
 			r.AddStatWIndex("chew", 1, "good")
