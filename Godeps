@@ -12,7 +12,7 @@
 		},
 		{
 			"ImportPath": "github.com/CapillarySoftware/goreport",
-			"Rev": "0fe9903e5d752515f1c3f4fc590bdde7b2d28921"
+			"Rev": "1794d840dd9c3c63a7de5099d87d2ed057a925d5"
 		},
 		{
 			"ImportPath": "github.com/CapillarySoftware/gostat/protoStat",
