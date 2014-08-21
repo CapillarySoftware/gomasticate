@@ -90,11 +90,10 @@ type DB struct {
 	Id        string
 }
 
-func (this *DB) IndexDocument(index string, indexType string, id string, doc Document) (err error) {
+func (this *DB) IndexDocument(index string, indexType string, doc Document) (err error) {
 	this.Lock()
 	this.Index = index
 	this.IndexType = indexType
-	this.Id = id
 	this.Doc = doc.String()
 	this.Unlock()
 	return

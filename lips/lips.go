@@ -26,9 +26,9 @@ func OpenWide(chewChan chan *messaging.Food, done chan interface{}, wg *sync.Wai
 	defer socket.Close()
 	r := rep.NewReporter()
 	//repeat stats with 0 if nothing is reported
-	r.AddRepeatedStatWIndex("lips", "timeout")
-	r.AddRepeatedStatWIndex("lips", "good")
-	r.AddRepeatedStatWIndex("lips", "bad")
+	r.RegisterStatWIndex("lips", "timeout")
+	r.RegisterStatWIndex("lips", "good")
+	r.RegisterStatWIndex("lips", "bad")
 
 	socket.SetRecvTimeout(1000 * time.Millisecond)
 	_, err = socket.Bind("tcp://*:2025")

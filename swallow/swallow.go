@@ -12,25 +12,26 @@ import (
 func Swallow(swallowChan <-chan *messaging.Food, stomach Stomach, wg *sync.WaitGroup) {
 	log.Info("Ready to swallow!")
 	r := rep.NewReporter()
-	r.AddRepeatedStatWIndex("swallow", "RFC3164Bad")
-	r.AddRepeatedStatWIndex("swallow", "RFC3164Good")
-	r.AddRepeatedStatWIndex("swallow", "RFC5424Bad")
-	r.AddRepeatedStatWIndex("swallow", "RFC5424Good")
-	r.AddRepeatedStatWIndex("swallow", "JSONBad")
-	r.AddRepeatedStatWIndex("swallow", "JSONGood")
+	r.RegisterStatWIndex("swallow", "RFC3164Bad")
+	r.RegisterStatWIndex("swallow", "RFC3164Good")
+	r.RegisterStatWIndex("swallow", "RFC5424Bad")
+	r.RegisterStatWIndex("swallow", "RFC5424Good")
+	r.RegisterStatWIndex("swallow", "JSONBad")
+	r.RegisterStatWIndex("swallow", "JSONGood")
 
 	for food := range swallowChan {
 		fType := food.GetType()
 		switch fType {
 		case messaging.RFC3164:
 			{
-				// log.Trace("RFC3164 : ", food)
-				err := stomach.IndexDocument(food.GetIndex(), food.GetIndexType(), food.GetId(), food.Rfc3164[0])
-				if nil != err {
-					log.Error(err)
-					r.AddStatWIndex("Swallow", 1, "RFC3164Bad")
-				} else {
-					r.AddStatWIndex("Swallow", 1, "RFC3164Good")
+				for _, v := range food.Rfc3164 {
+					err := stomach.IndexDocument(food.GetIndex(), food.GetIndexType(), v)
+					if nil != err {
+						log.Error(err)
+						r.AddStatWIndex("Swallow", 1, "RFC3164Bad")
+					} else {
+						r.AddStatWIndex("Swallow", 1, "RFC3164Good")
+					}
 				}
 			}
 
