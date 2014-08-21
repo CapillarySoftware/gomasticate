@@ -8,7 +8,7 @@
 		},
 		{
 			"ImportPath": "github.com/CapillarySoftware/goforward/messaging",
-			"Rev": "59db3e765c0c78d5876ede2262d11c0fa89dc048"
+			"Rev": "dd40f638c0a8d77d582dfc91e5c86e4bd676e734"
 		},
 		{
 			"ImportPath": "github.com/CapillarySoftware/goreport",
