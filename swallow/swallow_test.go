@@ -1,19 +1,26 @@
-package swallow_test
+package swallow
 
 import (
 	"github.com/CapillarySoftware/goforward/messaging"
 	. "github.com/CapillarySoftware/gomasticate/stomach"
-	. "github.com/CapillarySoftware/gomasticate/swallow"
 	log "github.com/cihub/seelog"
-	. "github.com/onsi/ginkgo"
-	. "github.com/onsi/gomega"
+	gi "github.com/onsi/ginkgo"
+	gom "github.com/onsi/gomega"
 	"sync"
 	"time"
 )
 
-var _ = Describe("Swallow", func() {
+var _ = gi.Describe("Swallow", func() {
 
-	Describe("Positive tests", func() {
+	gi.Describe("NewSwallowers", func() {
+		gi.It("Test swallower new method, with close", func() {
+			foodChan := make(chan *messaging.Food)
+			sw := NewSwallow("test", foodChan, 2)
+			close(foodChan)
+			sw.Close()
+		})
+	})
+	gi.Describe("Positive tests", func() {
 		var (
 			timestamp   int64
 			hostname    string
@@ -26,7 +33,7 @@ var _ = Describe("Swallow", func() {
 			swallowChan chan *messaging.Food
 			wg          sync.WaitGroup
 		)
-		BeforeEach(func() {
+		gi.BeforeEach(func() {
 			timestamp = int64(time.Now().Unix())
 			hostname = "hostname"
 			tag = "tag"
@@ -50,11 +57,11 @@ var _ = Describe("Swallow", func() {
 			swallowChan = make(chan *messaging.Food, 1) //blocking
 
 		})
-		It("Test RFC3164", func() {
+		gi.It("Test RFC3164", func() {
 			// log.Info(food)
 			db := new(DB)
 			wg.Add(1)
-			go Swallow(swallowChan, db, &wg)
+			go swallow(swallowChan, db, &wg)
 			swallowChan <- food
 			close(swallowChan)
 			wg.Wait()
@@ -73,7 +80,7 @@ var _ = Describe("Swallow", func() {
 			}
 
 			db.Lock()
-			Expect(db.Doc).Should(Equal(food.Rfc3164[0].String()))
+			gom.Expect(db.Doc).Should(gom.Equal(food.Rfc3164[0].String()))
 			db.Unlock()
 
 			// swallow.Swallow()
@@ -97,4 +104,7 @@ func (this *DB) IndexDocument(index string, indexType string, doc Document) (err
 	this.Doc = doc.String()
 	this.Unlock()
 	return
+}
+func (this *DB) Close() {
+
 }
