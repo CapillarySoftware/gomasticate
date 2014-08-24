@@ -2,14 +2,39 @@ package swallow
 
 import (
 	"github.com/CapillarySoftware/goforward/messaging"
+	_es "github.com/CapillarySoftware/gomasticate/elasticsearch"
 	. "github.com/CapillarySoftware/gomasticate/stomach"
 	rep "github.com/CapillarySoftware/goreport"
 	log "github.com/cihub/seelog"
 	"sync"
 )
 
+type Swallow struct {
+	wg *sync.WaitGroup
+}
+
+//New Swallowers
+func NewSwallow(url string, swallowChan <-chan *messaging.Food, concurrent int) *Swallow {
+
+	wg := sync.WaitGroup{}
+	sw := Swallow{wg: &wg}
+
+	wg.Add(concurrent)
+	for i := 0; i < concurrent; i++ {
+		s := _es.Elasticsearch{}
+		s.Connect(url)
+		go swallow(swallowChan, &s, &wg)
+	}
+	return &sw
+}
+
+//I'm full!!!!@
+func (this *Swallow) Close() {
+	this.wg.Wait()
+}
+
 //Swallow data and insert it into the db
-func Swallow(swallowChan <-chan *messaging.Food, stomach Stomach, wg *sync.WaitGroup) {
+func swallow(swallowChan <-chan *messaging.Food, stomach Stomach, wg *sync.WaitGroup) {
 	log.Info("Ready to swallow!")
 	r := rep.NewReporter()
 	r.RegisterStatWIndex("swallow", "RFC3164Bad")
@@ -28,9 +53,9 @@ func Swallow(swallowChan <-chan *messaging.Food, stomach Stomach, wg *sync.WaitG
 					err := stomach.IndexDocument(food.GetIndex(), food.GetIndexType(), v)
 					if nil != err {
 						log.Error(err)
-						r.AddStatWIndex("Swallow", 1, "RFC3164Bad")
+						r.AddStatWIndex("swallow", 1, "RFC3164Bad")
 					} else {
-						r.AddStatWIndex("Swallow", 1, "RFC3164Good")
+						r.AddStatWIndex("swallow", 1, "RFC3164Good")
 					}
 				}
 			}

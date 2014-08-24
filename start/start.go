@@ -4,7 +4,6 @@ package start
 import (
 	"github.com/CapillarySoftware/goforward/messaging"
 	"github.com/CapillarySoftware/gomasticate/chew"
-	_es "github.com/CapillarySoftware/gomasticate/elasticsearch"
 	"github.com/CapillarySoftware/gomasticate/lips"
 	"github.com/CapillarySoftware/gomasticate/swallow"
 
@@ -46,26 +45,16 @@ func Run() (err error) {
 		return
 	}
 	log.Info(conf)
-	es := new(_es.Elasticsearch)
-	es.Connect("localhost")
 	chewChan := make(chan *messaging.Food, 1000)
 	swallowChan := make(chan *messaging.Food, 2000)
 
 	done := make(chan interface{})
 
-	wg.Add(12)
+	wg.Add(2)
 	go lips.OpenWide(chewChan, done, &wg)
 	go chew.Chew(chewChan, swallowChan, &wg)
-	go swallow.Swallow(swallowChan, es, &wg)
-	go swallow.Swallow(swallowChan, es, &wg)
-	go swallow.Swallow(swallowChan, es, &wg)
-	go swallow.Swallow(swallowChan, es, &wg)
-	go swallow.Swallow(swallowChan, es, &wg)
-	go swallow.Swallow(swallowChan, es, &wg)
-	go swallow.Swallow(swallowChan, es, &wg)
-	go swallow.Swallow(swallowChan, es, &wg)
-	go swallow.Swallow(swallowChan, es, &wg)
-	go swallow.Swallow(swallowChan, es, &wg)
+
+	sw := swallow.NewSwallow("localhost", swallowChan, 20)
 
 	//handle signals
 	c := make(chan os.Signal, 1)
@@ -75,6 +64,7 @@ func Run() (err error) {
 	death := <-s //time for shutdown
 	log.Debug("Death return code: ", death)
 	close(done)
+	sw.Close()
 	log.Info("Waiting for goroutines to finish...")
 	wg.Wait()
 	log.Info("Exiting")

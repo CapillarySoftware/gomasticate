@@ -1,13 +1,13 @@
-package swallow_test
+package swallow
 
 import (
-	. "github.com/onsi/ginkgo"
-	. "github.com/onsi/gomega"
+	gi "github.com/onsi/ginkgo"
+	gom "github.com/onsi/gomega"
 
 	"testing"
 )
 
 func TestSwallow(t *testing.T) {
-	RegisterFailHandler(Fail)
-	RunSpecs(t, "Swallow Suite")
+	gom.RegisterFailHandler(gi.Fail)
+	gi.RunSpecs(t, "Swallow Suite")
 }

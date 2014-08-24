@@ -8,11 +8,11 @@
 		},
 		{
 			"ImportPath": "github.com/CapillarySoftware/goforward/messaging",
-			"Rev": "dd40f638c0a8d77d582dfc91e5c86e4bd676e734"
+			"Rev": "3c13b81d4aba38ae7ab09b93713eeedbe65c2ec0"
 		},
 		{
 			"ImportPath": "github.com/CapillarySoftware/goreport",
-			"Rev": "1794d840dd9c3c63a7de5099d87d2ed057a925d5"
+			"Rev": "7c110d66aa98850cdb22265d3705d6f5cfd1200a"
 		},
 		{
 			"ImportPath": "github.com/CapillarySoftware/gostat/protoStat",
@@ -24,7 +24,7 @@
 		},
 		{
 			"ImportPath": "github.com/bitly/go-hostpool",
-			"Rev": "58b95b10d6ca26723a7f46017b348653b825a8d6"
+			"Rev": "2e89d10a8bbfeada4b32882ffb4a2cb8b31d9bc0"
 		},
 		{
 			"ImportPath": "github.com/cihub/seelog",
@@ -33,8 +33,8 @@
 		},
 		{
 			"ImportPath": "github.com/mattbaird/elastigo/lib",
-			"Comment": "v1.0-45-gd125b56",
-			"Rev": "d125b56953d55e4be9b96272134359b6c9b041c6"
+			"Comment": "v1.0-47-g772a5c2",
+			"Rev": "772a5c2ba8b2cd5084429e5eff437499bc713708"
 		},
 		{
 			"ImportPath": "github.com/op/go-nanomsg",
