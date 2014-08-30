@@ -45,8 +45,8 @@ func Run() (err error) {
 		return
 	}
 	log.Info(conf)
-	chewChan := make(chan *messaging.Food, 1000)
-	swallowChan := make(chan *messaging.Food, 2000)
+	chewChan := make(chan *messaging.Food, 2000)
+	swallowChan := make(chan *messaging.Food, 4000)
 
 	done := make(chan interface{})
 
@@ -54,7 +54,7 @@ func Run() (err error) {
 	go lips.OpenWide(chewChan, done, &wg)
 	go chew.Chew(chewChan, swallowChan, &wg)
 
-	sw := swallow.NewSwallow("localhost", swallowChan, 20)
+	sw := swallow.NewSwallow("localhost", swallowChan, 10)
 
 	//handle signals
 	c := make(chan os.Signal, 1)
