@@ -42,7 +42,7 @@
 		},
 		{
 			"ImportPath": "gopkg.in/yaml.v1",
-			"Rev": "1b9791953ba4027efaeb728c7355e542a203be5e"
+			"Rev": "feb4ca79644e8e7e39c06095246ee54b1282c118"
 		}
 	]
 }
