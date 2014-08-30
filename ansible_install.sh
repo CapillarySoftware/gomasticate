@@ -6,5 +6,4 @@ export GOBIN=/home/capillaryDeploy/go/bin
 export PATH=$PATH:$GOBIN:$GOROOT/bin
 go get github.com/tools/godep
 go install github.com/tools/godep
-godep restore
-go install github.com/CapillarySoftware/gomasticate
+godep go install
