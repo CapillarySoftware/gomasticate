@@ -10,16 +10,10 @@ Masticate... because it feels right.
 //nanomsg
 http://nanomsg.org/download.html
 ./configure && make && make check && sudo make install
+git clone git@github.com:CapillarySoftware/gomasticate.git
+cd gomasticate
 go get github.com/tools/godep
 godep restore
-go get github.com/op/go-nanomsg
-go get github.com/CapillarySoftware/gomasticate
-</code>
-</pre>
-
-<h3>Install statically linked version</h3>
-<pre>
-<code>
-go install --ldflags '-extldflags "-static"'  github.com/CapillarySoftware/gomasticate
+godep build
 </code>
 </pre>
