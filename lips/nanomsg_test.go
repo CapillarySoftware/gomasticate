@@ -5,6 +5,7 @@ import (
 	log "github.com/cihub/seelog"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
+	"strconv"
 	// "time"
 	nano "github.com/op/go-nanomsg"
 )
@@ -15,15 +16,16 @@ var _ = Describe("Push and Pull", func() {
 	})
 	Describe("Benchmarks", func() {
 		Measure("25 pushers single puller performance", func(b Benchmarker) {
+			port := 9331
 			count := 20000
 			pushers := 25
 			runtime := b.Time("runtime", func() {
 				finished := make(chan int, 10)
 
-				go Pull(count*pushers, finished)
+				go Pull(count*pushers, finished, port)
 				for i := 0; i < pushers; i++ {
 					log.Info("Starting pusher")
-					go lips.Pusher(count, finished)
+					go lips.Pusher(count, finished, port)
 				}
 				log.Info("Waiting for messages")
 				for i := 0; i < pushers+1; i++ {
@@ -43,7 +45,7 @@ var _ = Describe("Push and Pull", func() {
 })
 
 //Simple nano puller
-func Pull(count int, finished chan int) {
+func Pull(count int, finished chan int, port int) {
 	var (
 		msg []byte
 		err error
@@ -54,7 +56,8 @@ func Pull(count int, finished chan int) {
 		log.Error(err)
 	}
 	defer socket.Close()
-	_, err = socket.Bind("tcp://*:2025")
+	sport := strconv.Itoa(port)
+	_, err = socket.Bind("tcp://*:" + sport)
 	if nil != err {
 		log.Error(err)
 	}

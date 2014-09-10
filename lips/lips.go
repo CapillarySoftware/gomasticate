@@ -7,12 +7,13 @@ import (
 	rep "github.com/CapillarySoftware/goreport"
 	log "github.com/cihub/seelog"
 	nano "github.com/op/go-nanomsg"
+	"strconv"
 	"sync"
 	"time"
 )
 
 //Injest data from queue and ship the data off to be swallowed
-func OpenWide(chewChan chan *messaging.Food, done chan interface{}, wg *sync.WaitGroup) {
+func OpenWide(chewChan chan *messaging.Food, done chan interface{}, wg *sync.WaitGroup, port int) {
 	var (
 		msg []byte
 		err error
@@ -31,7 +32,8 @@ func OpenWide(chewChan chan *messaging.Food, done chan interface{}, wg *sync.Wai
 	r.RegisterStatWIndex("lips", "bad")
 
 	socket.SetRecvTimeout(1000 * time.Millisecond)
-	_, err = socket.Bind("tcp://*:2025")
+	sport := strconv.Itoa(port)
+	_, err = socket.Bind("tcp://*:" + sport)
 	if nil != err {
 		log.Error(err)
 	}

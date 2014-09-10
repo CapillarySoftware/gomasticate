@@ -4,17 +4,19 @@ import (
 	"github.com/CapillarySoftware/goforward/messaging"
 	log "github.com/cihub/seelog"
 	nano "github.com/op/go-nanomsg"
+	"strconv"
 	"time"
 )
 
 //Simple pusher for testing
-func Pusher(count int, finished chan int) {
+func Pusher(count int, finished chan int, port int) {
 	socket, err := nano.NewPushSocket()
 	if nil != err {
 		log.Error(err)
 	}
 	defer socket.Close()
-	_, err = socket.Connect("tcp://localhost:2025")
+	sport := strconv.Itoa(port)
+	_, err = socket.Connect("tcp://localhost:" + sport)
 	if nil != err {
 		log.Error(err)
 		return
@@ -37,7 +39,7 @@ func Pusher(count int, finished chan int) {
 }
 
 //Simple pusher for testing
-func PusherProto(count int, finished chan int, msg *messaging.Food) {
+func PusherProto(count int, finished chan int, msg *messaging.Food, port int) {
 	log.Info("Starting pusher")
 	socket, err := nano.NewPushSocket()
 	if nil != err {
@@ -45,7 +47,8 @@ func PusherProto(count int, finished chan int, msg *messaging.Food) {
 	}
 	defer socket.Close()
 	socket.SetSendTimeout(500 * time.Millisecond)
-	_, err = socket.Connect("tcp://localhost:2025")
+	sport := strconv.Itoa(port)
+	_, err = socket.Connect("tcp://localhost:" + sport)
 	if nil != err {
 		log.Error(err)
 		return

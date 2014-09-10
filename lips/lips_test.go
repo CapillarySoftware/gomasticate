@@ -23,6 +23,7 @@ var _ = Describe("Lips", func() {
 		food      *messaging.Food
 		chewChan  chan *messaging.Food
 		done      chan interface{}
+		lipsPort  int
 	)
 
 	BeforeEach(func() {
@@ -37,6 +38,7 @@ var _ = Describe("Lips", func() {
 		fType := messaging.RFC3164
 		food = new(messaging.Food)
 		food.Type = &fType
+		lipsPort = 2025
 
 		msg := new(messaging.Rfc3164)
 		msg.Timestamp = &timestamp
@@ -57,8 +59,8 @@ var _ = Describe("Lips", func() {
 		var wg sync.WaitGroup
 		tot := make(chan int)
 		wg.Add(1)
-		go lips.PusherProto(msgCount, tot, food)
-		go lips.OpenWide(chewChan, done, &wg)
+		go lips.PusherProto(msgCount, tot, food, lipsPort)
+		go lips.OpenWide(chewChan, done, &wg, lipsPort)
 		log.Info("Waiting for sends to be finished")
 		count := <-tot //sync until it's been sent
 		Expect(count).Should(Equal(msgCount))
