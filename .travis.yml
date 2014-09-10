@@ -12,7 +12,7 @@ install:
 - go install github.com/onsi/gomega
 - export PATH=$PATH:$HOME/gopath/bin
 - $HOME/gopath/bin/godep restore
-- go install github.com/CapillarySoftware/gomasticate
+- $HOME/gopath/bin/godep go install github.com/CapillarySoftware/gomasticate
 script: $HOME/gopath/bin/ginkgo -cover -r --race
 deploy:
   provider: releases
