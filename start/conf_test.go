@@ -10,8 +10,7 @@ import (
 
 var _ = Describe("Conf", func() {
 	It("Fail to read conf that doesn't exist", func() {
-		conf := new(Conf)
-		err := conf.InitConf("test.yaml_not_exist")
+		_, err := NewConf("test.yaml_not_exist")
 		Expect(err).ShouldNot(Equal(BeNil()))
 	})
 
@@ -21,8 +20,7 @@ var _ = Describe("Conf", func() {
 			err  error
 		)
 		BeforeEach(func() {
-			conf = new(Conf)
-			err = conf.InitConf("test.yaml")
+			conf, err = NewConf("test.yaml")
 			if nil != err {
 				log.Error(err)
 			}
