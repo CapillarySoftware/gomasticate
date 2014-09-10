@@ -14,6 +14,6 @@ git clone git@github.com:CapillarySoftware/gomasticate.git
 cd gomasticate
 go get github.com/tools/godep
 godep restore
-godep build
+godep go build
 </code>
 </pre>
