@@ -13,20 +13,22 @@ type Conf struct {
 }
 
 //initialize our config file
-func (this *Conf) InitConf(path string) (err error) {
+func NewConf(path string) (conf *Conf, err error) {
+	conf = new(Conf)
 	cont, err := ioutil.ReadFile(path)
 	if nil != err {
 		log.Error(err)
 		return
 	}
-	this.c = make(map[interface{}]interface{})
-	err = yaml.Unmarshal([]byte(cont), &this.c)
+	conf.c = make(map[interface{}]interface{})
+	err = yaml.Unmarshal([]byte(cont), &conf.c)
 	if nil != err {
 		log.Error(err)
 		return
 	}
-	this.lips = this.c["lips"].(map[interface{}]interface{})
-	this.es = this.c["es"].(map[interface{}]interface{})
+	conf.lips = conf.c["lips"].(map[interface{}]interface{})
+	conf.es = conf.c["es"].(map[interface{}]interface{})
+
 	return
 }
 

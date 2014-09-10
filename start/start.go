@@ -38,8 +38,7 @@ func Death(c <-chan os.Signal, death chan int) {
 func Run() (err error) {
 	var wg sync.WaitGroup
 	log.Info("Starting gomasticate")
-	conf := new(Conf)
-	err = conf.InitConf("conf.yaml")
+	conf, err := NewConf("conf.yaml")
 	if nil != err {
 		log.Error(err)
 		return
@@ -51,10 +50,10 @@ func Run() (err error) {
 	done := make(chan interface{})
 
 	wg.Add(2)
-	go lips.OpenWide(chewChan, done, &wg)
+	go lips.OpenWide(chewChan, done, &wg, conf.LipsPort())
 	go chew.Chew(chewChan, swallowChan, &wg)
 
-	sw := swallow.NewSwallow("localhost", swallowChan, 10)
+	sw := swallow.NewSwallow(conf.EsHost(), swallowChan, 10)
 
 	//handle signals
 	c := make(chan os.Signal, 1)
