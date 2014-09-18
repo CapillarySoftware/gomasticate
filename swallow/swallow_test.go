@@ -1,6 +1,7 @@
 package swallow
 
 import (
+	"fmt"
 	"github.com/CapillarySoftware/goforward/messaging"
 	. "github.com/CapillarySoftware/gomasticate/stomach"
 	log "github.com/cihub/seelog"
@@ -105,6 +106,16 @@ func (this *DB) IndexDocument(index string, indexType string, doc Document) (err
 	this.Unlock()
 	return
 }
+
+func (this *DB) IndexDocumentDynamic(index string, indexType string, doc interface{}, id string) (err error) {
+	this.Lock()
+	this.Index = index
+	this.IndexType = indexType
+	this.Doc = fmt.Sprintf("%v", doc)
+	this.Unlock()
+	return
+}
+
 func (this *DB) Close() {
 
 }
