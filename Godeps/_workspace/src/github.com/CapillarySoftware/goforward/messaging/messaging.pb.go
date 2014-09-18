@@ -255,7 +255,7 @@ func (m *Rfc5424) GetId() string {
 
 type Json struct {
 	Id               *string `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`
-	Json             *string `protobuf:"bytes,2,opt,name=json" json:"json,omitempty"`
+	Json             []byte  `protobuf:"bytes,2,opt,name=json" json:"json,omitempty"`
 	XXX_unrecognized []byte  `json:"-"`
 }
 
@@ -269,11 +269,11 @@ func (m *Json) GetId() string {
 	return ""
 }
 
-func (m *Json) GetJson() string {
-	if m != nil && m.Json != nil {
-		return *m.Json
+func (m *Json) GetJson() []byte {
+	if m != nil {
+		return m.Json
 	}
-	return ""
+	return nil
 }
 
 type Food struct {
@@ -878,24 +878,23 @@ func (m *Json) Unmarshal(data []byte) error {
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Json", wireType)
 			}
-			var stringLen uint64
+			var byteLen int
 			for shift := uint(0); ; shift += 7 {
 				if index >= l {
 					return io.ErrUnexpectedEOF
 				}
 				b := data[index]
 				index++
-				stringLen |= (uint64(b) & 0x7F) << shift
+				byteLen |= (int(b) & 0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			postIndex := index + int(stringLen)
+			postIndex := index + byteLen
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			s := string(data[index:postIndex])
-			m.Json = &s
+			m.Json = append(m.Json, data[index:postIndex]...)
 			index = postIndex
 		default:
 			var sizeOfWire int
@@ -1283,7 +1282,7 @@ func (m *Json) Size() (n int) {
 		n += 1 + l + sovMessaging(uint64(l))
 	}
 	if m.Json != nil {
-		l = len(*m.Json)
+		l = len(m.Json)
 		n += 1 + l + sovMessaging(uint64(l))
 	}
 	if m.XXX_unrecognized != nil {
@@ -1475,8 +1474,11 @@ func NewPopulatedJson(r randyMessaging, easy bool) *Json {
 		this.Id = &v21
 	}
 	if r.Intn(10) != 0 {
-		v22 := randStringMessaging(r)
-		this.Json = &v22
+		v22 := r.Intn(100)
+		this.Json = make([]byte, v22)
+		for i := 0; i < v22; i++ {
+			this.Json[i] = byte(r.Intn(256))
+		}
 	}
 	if !easy && r.Intn(10) != 0 {
 		this.XXX_unrecognized = randUnrecognizedMessaging(r, 3)
@@ -1775,8 +1777,8 @@ func (m *Json) MarshalTo(data []byte) (n int, err error) {
 	if m.Json != nil {
 		data[i] = 0x12
 		i++
-		i = encodeVarintMessaging(data, i, uint64(len(*m.Json)))
-		i += copy(data[i:], *m.Json)
+		i = encodeVarintMessaging(data, i, uint64(len(m.Json)))
+		i += copy(data[i:], m.Json)
 	}
 	if m.XXX_unrecognized != nil {
 		i += copy(data[i:], m.XXX_unrecognized)
@@ -1906,7 +1908,7 @@ func (this *Json) GoString() string {
 	if this == nil {
 		return "nil"
 	}
-	s := strings1.Join([]string{`&messaging.Json{` + `Id:` + valueToGoStringMessaging(this.Id, "string"), `Json:` + valueToGoStringMessaging(this.Json, "string"), `XXX_unrecognized:` + fmt2.Sprintf("%#v", this.XXX_unrecognized) + `}`}, ", ")
+	s := strings1.Join([]string{`&messaging.Json{` + `Id:` + valueToGoStringMessaging(this.Id, "string"), `Json:` + valueToGoStringMessaging(this.Json, "byte"), `XXX_unrecognized:` + fmt2.Sprintf("%#v", this.XXX_unrecognized) + `}`}, ", ")
 	return s
 }
 func (this *Food) GoString() string {
@@ -2430,13 +2432,7 @@ func (this *Json) VerboseEqual(that interface{}) error {
 	} else if that1.Id != nil {
 		return fmt3.Errorf("Id this(%v) Not Equal that(%v)", this.Id, that1.Id)
 	}
-	if this.Json != nil && that1.Json != nil {
-		if *this.Json != *that1.Json {
-			return fmt3.Errorf("Json this(%v) Not Equal that(%v)", *this.Json, *that1.Json)
-		}
-	} else if this.Json != nil {
-		return fmt3.Errorf("this.Json == nil && that.Json != nil")
-	} else if that1.Json != nil {
+	if !bytes.Equal(this.Json, that1.Json) {
 		return fmt3.Errorf("Json this(%v) Not Equal that(%v)", this.Json, that1.Json)
 	}
 	if !bytes.Equal(this.XXX_unrecognized, that1.XXX_unrecognized) {
@@ -2473,13 +2469,7 @@ func (this *Json) Equal(that interface{}) bool {
 	} else if that1.Id != nil {
 		return false
 	}
-	if this.Json != nil && that1.Json != nil {
-		if *this.Json != *that1.Json {
-			return false
-		}
-	} else if this.Json != nil {
-		return false
-	} else if that1.Json != nil {
+	if !bytes.Equal(this.Json, that1.Json) {
 		return false
 	}
 	if !bytes.Equal(this.XXX_unrecognized, that1.XXX_unrecognized) {

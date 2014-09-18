@@ -50,7 +50,7 @@ message Rfc5424 {
 
 message Json {
 	optional string id = 1;
-	optional string json = 2;
+	optional bytes json = 2;
 }
 
 message Food {
