@@ -1,6 +1,8 @@
 package swallow
 
 import (
+	"bytes"
+	"encoding/json"
 	"github.com/CapillarySoftware/goforward/messaging"
 	_es "github.com/CapillarySoftware/gomasticate/elasticsearch"
 	. "github.com/CapillarySoftware/gomasticate/stomach"
@@ -11,6 +13,19 @@ import (
 
 type Swallow struct {
 	wg *sync.WaitGroup
+}
+
+type Json struct {
+	Msg interface{}
+	id  string
+}
+
+func (this *Json) GetId() string {
+	return this.id
+}
+
+func (this *Json) String() string {
+	return this.id
 }
 
 //New Swallowers
@@ -43,6 +58,7 @@ func swallow(swallowChan <-chan *messaging.Food, stomach Stomach, wg *sync.WaitG
 	r.RegisterStatWIndex("swallow", "RFC5424Good")
 	r.RegisterStatWIndex("swallow", "JSONBad")
 	r.RegisterStatWIndex("swallow", "JSONGood")
+	r.RegisterStatWIndex("swallow", "Invalid")
 
 	for food := range swallowChan {
 		fType := food.GetType()
@@ -68,13 +84,29 @@ func swallow(swallowChan <-chan *messaging.Food, stomach Stomach, wg *sync.WaitG
 
 		case messaging.JSON:
 			{
-				// log.Trace("JSON :", food)
-				// stomach.IndexDocument(food)
+				var buf *bytes.Buffer
+				var msg interface{}
+				var err error
+				for _, v := range food.Json {
+					buf = bytes.NewBuffer(v.GetJson())
+					err = json.NewDecoder(buf).Decode(&msg)
+					if nil != err {
+						log.Error("Failed to decode json: ", err)
+						continue
+					}
+					err = stomach.IndexDocumentDynamic(food.GetIndex(), food.GetIndexType(), &msg, v.GetId())
+					if nil != err {
+						log.Error(err)
+						r.AddStatWIndex("swallow", 1, "JSONBad")
+					} else {
+						r.AddStatWIndex("swallow", 1, "JSONGood")
+					}
+				}
 			}
 
 		default:
 			{
-				// log.Error("Invalid message : ", food)
+				r.AddStatWIndex("swallow", 1, "Invalid")
 			}
 		}
 	}

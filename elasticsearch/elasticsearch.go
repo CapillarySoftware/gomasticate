@@ -30,5 +30,10 @@ func (this *Elasticsearch) IndexDocument(index string, indexType string, doc Doc
 	return
 }
 
+func (this *Elasticsearch) IndexDocumentDynamic(index string, indexType string, doc interface{}, id string) (err error) {
+	_, err = this.c.Index(index, indexType, id, nil, doc)
+	return
+}
+
 func (this *Elasticsearch) Close() {
 }
