@@ -3,8 +3,17 @@
 	"GoVersion": "go1.3",
 	"Deps": [
 		{
+			"ImportPath": "code.google.com/p/go-uuid/uuid",
+			"Comment": "null-12",
+			"Rev": "7dda39b2e7d5e265014674c5af696ba4186679e9"
+		},
+		{
 			"ImportPath": "code.google.com/p/gogoprotobuf/proto",
 			"Rev": "d228c1a206c3a756d7ec6cc3579d92d00c35a161"
+		},
+		{
+			"ImportPath": "github.com/CapillarySoftware/goconsularis",
+			"Rev": "f85b0bbd4d17668de66c624e9522af3a4598097b"
 		},
 		{
 			"ImportPath": "github.com/CapillarySoftware/goforward/messaging",
@@ -23,6 +32,10 @@
 			"Rev": "5270e27dc51dad48e1a1d1f5a7806e2fa8d2eb88"
 		},
 		{
+			"ImportPath": "github.com/armon/consul-api",
+			"Rev": "045662de1042be0662fe4a1e21b57c8f7669261a"
+		},
+		{
 			"ImportPath": "github.com/bitly/go-hostpool",
 			"Rev": "2e89d10a8bbfeada4b32882ffb4a2cb8b31d9bc0"
 		},
@@ -32,6 +45,10 @@
 			"Rev": "d233b770e46b3ec2a99056fa5415f34c9c61cd8d"
 		},
 		{
+			"ImportPath": "github.com/jeromer/syslogparser",
+			"Rev": "812866d0389ae7e1f5a0110d47dea20224fc776f"
+		},
+		{
 			"ImportPath": "github.com/mattbaird/elastigo/lib",
 			"Comment": "v1.0-47-g772a5c2",
 			"Rev": "772a5c2ba8b2cd5084429e5eff437499bc713708"
@@ -39,6 +56,14 @@
 		{
 			"ImportPath": "github.com/op/go-nanomsg",
 			"Rev": "56d628e7c641959b9dc713a83e21dc178aee25bd"
+		},
+		{
+			"ImportPath": "github.com/zenazn/goji/graceful",
+			"Rev": "90d355d3e1693435a6300da7d4e191126aced78e"
+		},
+		{
+			"ImportPath": "github.com/zenazn/goji/web",
+			"Rev": "90d355d3e1693435a6300da7d4e191126aced78e"
 		},
 		{
 			"ImportPath": "gopkg.in/yaml.v1",
